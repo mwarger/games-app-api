@@ -1,3 +1,5 @@
+This is based almost entirely off the serverless-stack.com tutorial to provide a base crud app for games.
+
 # Serverless Node.js Starter
 
 A Serverless starter that adds ES7 syntax, serverless-offline, environment variables, and unit test support. Part of the [Serverless Stack](http://serverless-stack.com) guide.
@@ -26,24 +28,28 @@ A demo version of this service is hosted on AWS - [`https://z6pv80ao4l.execute-a
 
 And here is the ES7 source behind it
 
-``` javascript
+```javascript
 export const hello = async (event, context, callback) => {
   const response = {
     statusCode: 200,
     body: JSON.stringify({
-      message: `Go Serverless v1.0! ${(await message({ time: 1, copy: 'Your function executed successfully!'}))}`,
-      input: event,
-    }),
-  };
+      message: `Go Serverless v1.0! ${await message({
+        time: 1,
+        copy: 'Your function executed successfully!'
+      })}`,
+      input: event
+    })
+  }
 
-  callback(null, response);
-};
+  callback(null, response)
+}
 
-const message = ({ time, ...rest }) => new Promise((resolve, reject) => 
-  setTimeout(() => {
-    resolve(`${rest.copy} (with a delay)`);
-  }, time * 1000)
-);
+const message = ({ time, ...rest }) =>
+  new Promise((resolve, reject) =>
+    setTimeout(() => {
+      resolve(`${rest.copy} (with a delay)`)
+    }, time * 1000)
+  )
 ```
 
 ### Requirements
@@ -55,19 +61,19 @@ const message = ({ time, ...rest }) => new Promise((resolve, reject) =>
 
 To create a new Serverless project.
 
-``` bash
+```bash
 $ serverless install --url https://github.com/AnomalyInnovations/serverless-nodejs-starter --name my-project
 ```
 
 Enter the new directory
 
-``` bash
+```bash
 $ cd my-project
 ```
 
 Install the Node.js packages
 
-``` bash
+```bash
 $ npm install
 ```
 
@@ -75,25 +81,25 @@ $ npm install
 
 To run unit tests on your local
 
-``` bash
+```bash
 $ npm test
 ```
 
 To run a function on your local
 
-``` bash
+```bash
 $ serverless invoke local --function hello
 ```
 
 To simulate API Gateway locally using [serverless-offline](https://github.com/dherault/serverless-offline)
 
-``` bash
+```bash
 $ serverless offline start
 ```
 
 Run your tests
 
-``` bash
+```bash
 $ npm test
 ```
 
@@ -101,13 +107,13 @@ We use Jest to run our tests. You can read more about setting up your tests [her
 
 Deploy your project
 
-``` bash
+```bash
 $ serverless deploy
 ```
 
 Deploy a single function
 
-``` bash
+```bash
 $ serverless deploy function --function hello
 ```
 
@@ -115,10 +121,10 @@ To add another function as a new file to your project, simply add the new file a
 
 To add environment variables to your project
 
-1. Rename `env.example` to `env.yml`.
-2. Add environment variables for the various stages to `env.yml`.
-3. Uncomment `environment: ${file(env.yml):${self:provider.stage}}` in the `serverless.yml`.
-4. Make sure to not commit your `env.yml`.
+1.  Rename `env.example` to `env.yml`.
+2.  Add environment variables for the various stages to `env.yml`.
+3.  Uncomment `environment: ${file(env.yml):${self:provider.stage}}` in the `serverless.yml`.
+4.  Make sure to not commit your `env.yml`.
 
 ### Support
 
