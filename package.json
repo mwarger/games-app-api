@@ -4,6 +4,7 @@
   "description": "A Node.js starter for the Serverless Framework with async/await and unit test support",
   "main": "handler.js",
   "scripts": {
+    "start": "serverless offline start",
     "test": "jest"
   },
   "author": "",

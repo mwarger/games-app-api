@@ -1,5 +1,5 @@
-import * as dynamoDbLib from './libs/dynamodb-lib';
-import { success, failure } from './libs/response-lib';
+import * as dynamoDbLib from './libs/dynamodb-lib'
+import { success, failure } from './libs/response-lib'
 
 export async function main(event, context, callback) {
   const params = {
@@ -12,15 +12,15 @@ export async function main(event, context, callback) {
     //   of the authenticated user
     KeyConditionExpression: 'userId = :userId',
     ExpressionAttributeValues: {
-      ':userId': event.requestContext.identity.cognitoIdentityId
+      ':userId': event.requestContext.authorizer.claims.sub
     }
-  };
+  }
 
   try {
-    const result = await dynamoDbLib.call('query', params);
+    const result = await dynamoDbLib.call('query', params)
     // Return the matching list of items in response body
-    callback(null, success(result.Items));
+    callback(null, success(result.Items))
   } catch (e) {
-    callback(null, failure({ status: false }));
+    callback(null, failure({ status: false }))
   }
 }

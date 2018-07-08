@@ -52,7 +52,8 @@ functions:
           path: games
           method: post
           cors: true
-          authorizer: aws_iam
+          authorizer: 
+            arn: arn:aws:cognito-idp:us-east-1:520335913573:userpool/us-east-1_zUzCDnLDQ
   get:
     # Defines an HTTP API endpoint that calls the main function in get.js
     # - path: url path is /games/{id}
@@ -63,7 +64,9 @@ functions:
           path: games/{id}
           method: get
           cors: true
-          authorizer: aws_iam
+          authorizer: 
+            arn: arn:aws:cognito-idp:us-east-1:520335913573:userpool/us-east-1_zUzCDnLDQ
+
   list:
     # Defines an HTTP API endpoint that calls the main function in list.js
     # - path: url path is /games
@@ -74,7 +77,8 @@ functions:
           path: games
           method: get
           cors: true
-          authorizer: aws_iam
+          authorizer: 
+            arn: arn:aws:cognito-idp:us-east-1:520335913573:userpool/us-east-1_zUzCDnLDQ
   update:
     # Defines an HTTP API endpoint that calls the main function in update.js
     # - path: url path is /games/{id}
@@ -85,7 +89,8 @@ functions:
           path: games/{id}
           method: put
           cors: true
-          authorizer: aws_iam
+          authorizer: 
+            arn: arn:aws:cognito-idp:us-east-1:520335913573:userpool/us-east-1_zUzCDnLDQ
   delete:
     # Defines an HTTP API endpoint that calls the main function in delete.js
     # - path: url path is /games/{id}
@@ -96,4 +101,5 @@ functions:
           path: games/{id}
           method: delete
           cors: true
-          authorizer: aws_iam
+          authorizer: 
+            arn: arn:aws:cognito-idp:us-east-1:520335913573:userpool/us-east-1_zUzCDnLDQ
