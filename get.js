@@ -4,12 +4,9 @@ import { success, failure } from './libs/response-lib'
 export async function main(event, context, callback) {
   const params = {
     TableName: 'games',
-    // 'Key' defines the partition key and sort key of the item to be retrieved
-    // - 'userId': Identity Pool identity id of the authenticated user
-    // - 'noteId': path parameter
     Key: {
-      userId: event.requestContext.authorizer.claims.sub,
-      gameId: event.pathParameters.id
+      userId: event.userId || event.requestContext.authorizer.claims.sub,
+      gameId: event.gameId || event.pathParameters.id
     }
   }
 
@@ -17,11 +14,15 @@ export async function main(event, context, callback) {
     const result = await dynamoDbLib.call('get', params)
     if (result.Item) {
       // Return the retrieved item
-      callback(null, success(result.Item))
+      callback(null, event.userId ? result.Item : success(result.Item))
     } else {
-      callback(null, failure({ status: false, error: 'Item not found.' }))
+      const error = { status: false, error: 'Item not found.' }
+      callback(null, event.userId ? error : failure(error))
     }
   } catch (e) {
-    callback(null, failure({ status: false }))
+    callback(
+      null,
+      event.userId ? { status: false } : failure({ status: false })
+    )
   }
 }

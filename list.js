@@ -4,22 +4,19 @@ import { success, failure } from './libs/response-lib'
 export async function main(event, context, callback) {
   const params = {
     TableName: 'games',
-    // 'KeyConditionExpression' defines the condition for the query
-    // - 'userId = :userId': only return items with matching 'userId'
-    //   partition key
-    // 'ExpressionAttributeValues' defines the value in the condition
-    // - ':userId': defines 'userId' to be Identity Pool identity id
-    //   of the authenticated user
     KeyConditionExpression: 'userId = :userId',
     ExpressionAttributeValues: {
-      ':userId': event.requestContext.authorizer.claims.sub
+      ':userId': event.userId
+        ? event.userId
+        : event.requestContext.authorizer.claims.sub
     }
   }
 
   try {
     const result = await dynamoDbLib.call('query', params)
+
     // Return the matching list of items in response body
-    callback(null, success(result.Items))
+    callback(null, event.userId ? result.Items : success(result.Items))
   } catch (e) {
     callback(null, failure({ status: false }))
   }
